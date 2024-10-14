@@ -42,10 +42,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // MySQL JDBC 드라이버
-    implementation 'mysql:mysql-connector-java:8.0.33'
+    // implementation 'mysql:mysql-connector-java:8.0.33'
 
     // Spring Data JPA: JPA를 통해 데이터베이스와의 상호작용을 쉽게 해주는 스타터 - RDBMS를 사용하지 않을 경우엔 제거해야 함 - import java.sql.Connection 위해 필요
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
 
 tasks.named('test') {
