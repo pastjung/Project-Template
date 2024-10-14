@@ -37,9 +37,9 @@ services:
       - ${SPRINGBOOT_HOST_PORT}:${SPRINGBOOT_SERVER_PORT}
     env_file:
       - ./springboot-app/.env
-    depends_on:
+    # depends_on:
       # - mysql
-      - mariadb
+      # - mariadb
     networks:
       - inha
 
@@ -61,23 +61,23 @@ services:
   #   networks:
   #     - inha
 
-  mariadb:
-    image: 'mariadb:latest'
-    container_name: 'mariadb-container'
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MARIADB_DATABASE}
-      MYSQL_USER: ${MARIADB_USER}
-      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
-    ports:
-      - ${MARIADB_HOST_PORT}:${MARIADB_SERVER_PORT}
-    env_file:
-      - .env
-    volumes:
-      - ./db-data/mariadb-data:/var/lib/mysql
-    networks:
-      - inha
+  # mariadb:
+  #   image: 'mariadb:latest'
+  #   container_name: 'mariadb-container'
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+  #     MYSQL_DATABASE: ${MARIADB_DATABASE}
+  #     MYSQL_USER: ${MARIADB_USER}
+  #     MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+  #   ports:
+  #     - ${MARIADB_HOST_PORT}:${MARIADB_SERVER_PORT}
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./db-data/mariadb-data:/var/lib/mysql
+  #   networks:
+  #     - inha
 
 networks:
   inha:

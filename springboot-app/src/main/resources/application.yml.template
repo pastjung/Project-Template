@@ -28,23 +28,23 @@ server:
 #         format_sql: true        # 로그에 출력되는 SQL 쿼리의 형식을 설정 -> true: 출력되는 SQL 쿼리를 포맷하여 읽기 쉽게 변경, false: 기본 형식
 #         use_sql_comments: false # Hibernate가 생성하는 SQL 쿼리에 주석을 추가할지를 설정 -> true: 생성된 SQL 쿼리에 주석을 추가하여 어떤 Hibernate 작업에 해당하는지 명시, false: 주석 X
 
-# MariaDB
-spring:
-  config:
-    import: optional:file:.env[.properties]
-  application:
-    name: springboot-app
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${MARIADB_HOST}:${MARIADB_PORT}/${MARIADB_DATABASE}?serverTimezone=Asia/Seoul
-    username: ${MARIADB_USER}
-    password: ${MARIADB_PASSWORD}
-  jpa:
-    database-platform: org.hibernate.dialect.MariaDBDialect # Spring Boot에서 hibernate dialect(방언) 설정 - MariaDB 설정
-    hibernate:
-      ddl-auto: create-drop  
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-        use_sql_comments: false
+# # MariaDB
+# spring:
+#   config:
+#     import: optional:file:.env[.properties]
+#   application:
+#     name: springboot-app
+#   datasource:
+#     driver-class-name: org.mariadb.jdbc.Driver
+#     url: jdbc:mariadb://${MARIADB_HOST}:${MARIADB_PORT}/${MARIADB_DATABASE}?serverTimezone=Asia/Seoul
+#     username: ${MARIADB_USER}
+#     password: ${MARIADB_PASSWORD}
+#   jpa:
+#     database-platform: org.hibernate.dialect.MariaDBDialect # Spring Boot에서 hibernate dialect(방언) 설정 - MariaDB 설정
+#     hibernate:
+#       ddl-auto: create-drop  
+#     properties:
+#       hibernate:
+#         show_sql: true
+#         format_sql: true
+#         use_sql_comments: false
