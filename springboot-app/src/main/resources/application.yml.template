@@ -1,0 +1,29 @@
+# .env (SPRINGBOOT_SERVER_PORT)
+server:
+  port: ${SPRINGBOOT_SERVER_PORT}
+
+# MySQL
+spring:
+  config:
+    # Import .env file
+    import: optional:file:.env[.properties]
+  application:
+    name: springboot-app
+  datasource: # JPA와 Hibernate를 사용하여 관계형 데이터베이스와 연결할 때 사용 : ex) H2, MySQL, PostgreSQL 등
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}?serverTimezone=Asia/Seoul
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    hibernate:
+      # 데이터베이스 스키마를 자동으로 관리하는 방법을 설정
+      # none: 스키마 변경 수행 X
+      # update: 데이터베이스 스키마를 현재 엔티티 모델에 맞게 업데이트 (기존 데이터 유지)
+      # create: 애플리케이션 시작 시 데이터베이스를 새로 생성 (기존 데이터 삭제)
+      # create-drop: 애플리케이션 시작 시 데이터베이스를 새로 생성하고, 종료 시 삭제
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true          # 실행되는 SQL 쿼리를 로그에 출력할지를 설정
+        format_sql: true        # 로그에 출력되는 SQL 쿼리의 형식을 설정 -> true: 출력되는 SQL 쿼리를 포맷하여 읽기 쉽게 변경, false: 기본 형식
+        use_sql_comments: false # Hibernate가 생성하는 SQL 쿼리에 주석을 추가할지를 설정 -> true: 생성된 SQL 쿼리에 주석을 추가하여 어떤 Hibernate 작업에 해당하는지 명시, false: 주석 X
