@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.cdimascio.dotenv.Dotenv;
 
 // import javax.sql.DataSource;
-// import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate; // MongoTemplate 임포트
 
 // import java.sql.Connection;
 // import java.sql.DatabaseMetaData;
@@ -25,6 +26,9 @@ public class HelloController {
     // @Autowired
     // private DataSource dataSource; // MariaDB와 MySQL은 동일한 JDBC 드라이버를 사용하기 때문에, 하나의 DataSource를 통해 두 데이터베이스에 연결할 수 있다.
 
+    @Autowired
+    private MongoTemplate mongoTemplate;    // MongoDB에 연결하기 위함
+
     // @GetMapping("/health/RDBMS")
     // public String pingRDBMS() {
     //     try (Connection connection = dataSource.getConnection()) {
@@ -35,6 +39,16 @@ public class HelloController {
     //         return "RDBMS: Not Connected - " + e.getMessage();
     //     }
     // }
+
+    @GetMapping("/health/mongoDB")
+    public String pingMongoDB() {
+        try {
+        String dbName = mongoTemplate.getDb().getName(); // 연결을 테스트
+            return "MongoDB: Connected to " + dbName;
+        } catch (Exception e) {
+            return "MongoDB: Not Connected - " + e.getMessage();
+        }
+    }
 
     @GetMapping("/hello")
     public String sayHello() {

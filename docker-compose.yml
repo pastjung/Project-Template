@@ -37,9 +37,10 @@ services:
       - ${SPRINGBOOT_HOST_PORT}:${SPRINGBOOT_SERVER_PORT}
     env_file:
       - ./springboot-app/.env
-    # depends_on:
+    depends_on:
       # - mysql
       # - mariadb
+      - mongodb
     networks:
       - inha
 
@@ -78,6 +79,22 @@ services:
   #     - ./db-data/mariadb-data:/var/lib/mysql
   #   networks:
   #     - inha
+
+  mongodb:
+    image: 'mongo:latest'
+    container_name: 'mongodb-container'
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_AUTHDB: ${MONGO_INITDB_AUTHDB} # 인증에 사용할 데이터베이스를 지정
+    ports:
+      - ${MONGODB_HOST_PORT}:${MONGODB_SERVER_PORT}
+    volumes:
+      - ./db-data/mongodb-data:/data/db
+    networks:
+      - inha
 
 networks:
   inha:

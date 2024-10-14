@@ -48,3 +48,29 @@ server:
 #         show_sql: true
 #         format_sql: true
 #         use_sql_comments: false
+
+# MongoDB
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  application:
+    name: springboot-app
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb?serverTimezone=Asia/Seoul
+    username: sa
+    password: 
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: false
+  h2:
+    console:
+      enabled: true
+  data:       # Spring Boot에서 MongoDB와 같은 NoSQL 데이터베이스를 설정할 때 사용되는 키
+    mongodb:  # Spring Data MongoDB를 사용할 때 사용
+      uri: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}?authSource=${MONGO_INITDB_AUTHDB} # RDBMS에서는 URL 사용, NoSQL에서는 URI 사용
