@@ -24,17 +24,23 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // Lombok: 보일러플레이트 코드를 줄여주는 라이브러리
+    compileOnly 'org.projectlombok:lombok'          // 컴파일 시에만 사용, 런타임에는 포함되지 않음
+    annotationProcessor 'org.projectlombok:lombok'  // Lombok 애너테이션 처리기
 
-    // dotenv
+    // Spring Boot Test: Spring Boot 애플리케이션의 테스트를 지원하는 스타터
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'  // 테스트 구현 의존성
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'            // JUnit 플랫폼 런처
+
+    // dotenv-java: 환경 변수를 쉽게 로드할 수 있게 해주는 라이브러리
     implementation 'io.github.cdimascio:dotenv-java:2.2.0'
 
-    // Swagger : /swagger-ui/index.html
+    // Springdoc OpenAPI: Swagger UI를 통해 API 문서를 생성하는 라이브러리 -> /swagger-ui/index.html
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+    // Spring Web: 웹 애플리케이션을 위한 스타터, RESTful API 및 MVC 기능 제공
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
 }
 
 tasks.named('test') {
