@@ -62,45 +62,46 @@ services:
     env_file:
       - .env
     depends_on:
-      - mariadb
+      # - mariadb
+      - mysql
     networks:
       - inha
 
-  # mysql:
-  #   image: 'mysql:latest'
-  #   container_name: 'mysql-container'
-  #   restart: always
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # 루트 사용자 비밀번호
-  #     MYSQL_DATABASE: ${MYSQL_DATABASE}           # 자동 생성할 DB 이름
-  #     MYSQL_USER: ${MYSQL_USER}
-  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - ${MYSQL_HOST_PORT}:${MYSQL_SERVER_PORT}
-  #   volumes:
-  #     - ./db-data/mysql-data:/var/lib/mysql
-  #   networks:
-  #     - inha
-
-  mariadb:
-    image: 'mariadb:latest'
-    container_name: 'mariadb-container'
+  mysql:
+    image: 'mysql:latest'
+    container_name: 'mysql-container'
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MARIADB_DATABASE}
-      MYSQL_USER: ${MARIADB_USER}
-      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
-    ports:
-      - ${MARIADB_HOST_PORT}:${MARIADB_SERVER_PORT}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # 루트 사용자 비밀번호
+      MYSQL_DATABASE: ${MYSQL_DATABASE}           # 자동 생성할 DB 이름
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     env_file:
       - .env
+    ports:
+      - ${MYSQL_HOST_PORT}:${MYSQL_SERVER_PORT}
     volumes:
-      - ./db-data/mariadb-data:/var/lib/mysql
+      - ./db-data/mysql-data:/var/lib/mysql
     networks:
       - inha
+
+  # mariadb:
+  #   image: 'mariadb:latest'
+  #   container_name: 'mariadb-container'
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+  #     MYSQL_DATABASE: ${MARIADB_DATABASE}
+  #     MYSQL_USER: ${MARIADB_USER}
+  #     MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+  #   ports:
+  #     - ${MARIADB_HOST_PORT}:${MARIADB_SERVER_PORT}
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./db-data/mariadb-data:/var/lib/mysql
+  #   networks:
+  #     - inha
 
   # mongodb:
   #   image: 'mongo:latest'
