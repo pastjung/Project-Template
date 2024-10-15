@@ -24,4 +24,10 @@ public class UserController {
         SignUpResponse signUpResponse = userService.signUpToRDBMS(signUpRequest);
         return CommonResponse.ofDataWithHttpStatus(signUpResponse, HttpStatus.OK);
     }
+
+    @PostMapping("/signup/NoSQL")
+    public ResponseEntity<CommonResponse<SignUpResponse>> signUpToMongoDB(@RequestBody @Validated SignUpRequest signUpRequest) {
+        SignUpResponse signUpResponse = userService.signUpToMongoDB(signUpRequest);
+        return CommonResponse.ofDataWithHttpStatus(signUpResponse, HttpStatus.OK);
+    }
 }
