@@ -7,12 +7,28 @@ function App() {
   const [count, setCount] = useState(0)
   const [message, setMessage] = useState('')
 
-  const springbootApiPort = import.meta.env.VITE_SPRINGBOOT_HOST_PORT;    // springboot port
-  const apiUrl = `http://localhost:${springbootApiPort}/api/hello`;       // api 호출 URL
+  const springbootApiPort = import.meta.env.VITE_SPRINGBOOT_HOST_PORT;      // springboot port
+  const springbootUrl = `http://localhost:${springbootApiPort}/api/hello`;  // springboot api 호출 URL
 
-  const callApi = async () => {
+  const fastApiPort = import.meta.env.VITE_FASTAPI_HOST_PORT;      // fastapi port
+  const fastAPIUrl = `http://localhost:${fastApiPort}/api/ping`;  // fastapi api 호출 URL
+
+  const callSpringBoot = async () => {
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch(springbootUrl);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.text();
+      setMessage(data);
+    } catch (error) {
+      setMessage('Error: ' + error.message);
+    }
+  };
+
+  const callFastApi = async () => {
+    try {
+      const response = await fetch(fastAPIUrl);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -38,7 +54,8 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <button onClick={callApi}>Call API</button>
+        <button onClick={callSpringBoot}>Call Spring Boot</button>
+        <button onClick={callFastApi}>Call FastAPI</button>
         <p>{message}</p>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
