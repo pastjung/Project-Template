@@ -6,6 +6,7 @@ from starlette.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from core.rdbms import Base, engine
 from core.mongoDB import mongodb
+from router import user_router
 
 def get_server():
     server = FastAPI(
@@ -32,6 +33,8 @@ def get_server():
 Base.metadata.create_all(bind=engine)
 
 app = get_server()
+
+app.include_router(user_router.router, tags=['User'])
 
 @app.get('/api/ping', tags=['Root'])
 def ping():
