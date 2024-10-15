@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 
 from core.docs import *
+from starlette.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 
 def get_server():
     server = FastAPI(
@@ -9,6 +11,16 @@ def get_server():
         version="1.0.0",
         description=root_description,
         openapi_url="/openapi.json"
+    )
+    server.add_middleware(
+        CORSMiddleware,
+        allow_origins=['*'],
+        allow_credentials=True,
+        allow_methods=['*'],
+        allow_headers=['*'],
+    )
+    server.add_middleware(
+        GZipMiddleware, minimum_size=1000
     )
 
     return server
