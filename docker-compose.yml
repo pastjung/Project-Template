@@ -103,21 +103,21 @@ services:
   #   networks:
   #     - inha
 
-  # mongodb:
-  #   image: 'mongo:latest'
-  #   container_name: 'mongodb-container'
-  #   restart: always
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-  #     MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-  #     MONGO_INITDB_AUTHDB: ${MONGO_INITDB_AUTHDB} # 인증에 사용할 데이터베이스를 지정
-  #   ports:
-  #     - ${MONGODB_HOST_PORT}:${MONGODB_SERVER_PORT}
-  #   volumes:
-  #     - ./db-data/mongodb-data:/data/db
-  #   networks:
-  #     - inha
+  mongodb:
+    image: 'mongo:latest'
+    container_name: 'mongodb-container'
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_AUTHDB: ${MONGO_INITDB_AUTHDB} # 인증에 사용할 데이터베이스를 지정
+    ports:
+      - ${MONGODB_HOST_PORT}:${MONGODB_SERVER_PORT}
+    volumes:
+      - ./db-data/mongodb-data:/data/db
+    networks:
+      - inha
 
 networks:
   inha:
