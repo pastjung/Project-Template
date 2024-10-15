@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from core.docs import *
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
+from core.rdbms import Base, engine
 
 def get_server():
     server = FastAPI(
@@ -24,6 +25,9 @@ def get_server():
     )
 
     return server
+
+# 테이블 생성
+Base.metadata.create_all(bind=engine)
 
 app = get_server()
 
