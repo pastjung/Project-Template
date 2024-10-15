@@ -12,7 +12,8 @@ services:
     volumes:
       - ./react-app/src:/react-app/src
     depends_on:
-      - springboot-app
+      # - springboot-app
+      - fastapi-app
     ports:
       - ${REACT_HOST_PORT}:${REACT_SERVER_PORT}
     env_file:
@@ -20,27 +21,46 @@ services:
     networks:
       - inha
 
-  springboot-app:
+  # springboot-app:
+  #   build:
+  #     context: ./springboot-app
+  #     # dockerfile : Dockerfile         # 배포용 도커 파일
+  #     dockerfile : ./dockerfile.dev   # 개발용 도커 파일
+  #   image: 'springboot-image:latest'
+  #   container_name: 'springboot-container'
+  #   restart: always
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - ./springboot-app:/springboot-app
+  #     - ./springboot-app/.env:/.env
+  #   ports:
+  #     - ${SPRINGBOOT_HOST_PORT}:${SPRINGBOOT_SERVER_PORT}
+  #   env_file:
+  #     - ./springboot-app/.env
+  #   depends_on:
+  #     # - mysql
+  #     # - mariadb
+  #     - mongodb
+  #   networks:
+  #     - inha
+
+  fastapi-app:
     build:
-      context: ./springboot-app
-      # dockerfile : Dockerfile         # 배포용 도커 파일
-      dockerfile : ./dockerfile.dev   # 개발용 도커 파일
-    image: 'springboot-image:latest'
-    container_name: 'springboot-container'
+      context: ./fastapi-app
+      # dockerfile: ./dockerfile      # 배포용 도커 파일
+      dockerfile: ./dockerfile.dev  # 개발용 도커 파일
+    image: 'fastapi-image:latest'
+    container_name: 'fastapi-container'
     restart: always
     stdin_open: true
     tty: true
     volumes:
-      - ./springboot-app:/springboot-app
-      - ./springboot-app/.env:/.env
+      - ./fastapi-app:/fastapi-app  # 프로젝트와 컨테이너를 마운트 시켜 즉각적으로 반영되도록 설정
     ports:
-      - ${SPRINGBOOT_HOST_PORT}:${SPRINGBOOT_SERVER_PORT}
+      - ${FASTAPI_HOST_PORT}:${FASTAPI_SERVER_PORT}
     env_file:
-      - ./springboot-app/.env
-    depends_on:
-      # - mysql
-      # - mariadb
-      - mongodb
+      - .env
     networks:
       - inha
 
@@ -80,21 +100,21 @@ services:
   #   networks:
   #     - inha
 
-  mongodb:
-    image: 'mongo:latest'
-    container_name: 'mongodb-container'
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-      MONGO_INITDB_AUTHDB: ${MONGO_INITDB_AUTHDB} # 인증에 사용할 데이터베이스를 지정
-    ports:
-      - ${MONGODB_HOST_PORT}:${MONGODB_SERVER_PORT}
-    volumes:
-      - ./db-data/mongodb-data:/data/db
-    networks:
-      - inha
+  # mongodb:
+  #   image: 'mongo:latest'
+  #   container_name: 'mongodb-container'
+  #   restart: always
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+  #     MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+  #     MONGO_INITDB_AUTHDB: ${MONGO_INITDB_AUTHDB} # 인증에 사용할 데이터베이스를 지정
+  #   ports:
+  #     - ${MONGODB_HOST_PORT}:${MONGODB_SERVER_PORT}
+  #   volumes:
+  #     - ./db-data/mongodb-data:/data/db
+  #   networks:
+  #     - inha
 
 networks:
   inha:
