@@ -1,5 +1,6 @@
 package com.inha.springbootapp.domain.user.entity;
 
+import com.inha.springbootapp.domain.common.entity.Timestamped;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class RDBMSUser {
+public class RDBMSUser extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
