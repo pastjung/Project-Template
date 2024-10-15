@@ -4,7 +4,7 @@
 > last updated at: october 15, 2024
 
 
-## Current: ver. 1.0.1<br/>
+## Current: ver. 1.0.2<br/>
 >* ver 1.0.0.
 >   * Init: 프로젝트 세팅 ( React + Spring Boot )
 >   * CORS 설정
@@ -14,6 +14,8 @@
 >   * Spring Boot: application.properties -> application.yml 변경
 >   * DB 연결: MySQL, MariaDB, MongoDB
 >   * Spring Boot: RDBMS & NOSQL 데이터베이스 사용법 예시 코드 추가
+>* ver 1.0.2.
+>   * RDBMDS의 QueryDSL 추가 ( MongoDB는 QueryDSL을 자주 사용하지 않아서 RDBMS만 추가함 )
 
 # 1. 프로그램 (프로젝트) 설명
 
@@ -168,20 +170,28 @@
     │   │   │   │   │       ├── dto/
     │   │   │   │   │       │   ├── requestDto/
     │   │   │   │   │       │   │   └── SignUpRequest.java
-    │   │   │   │   │       │   └── responseDto/
-    │   │   │   │   │       │       └── SignUpResponse.java
+    │   │   │   │   │       │   ├── responseDto/
+    │   │   │   │   │       │   │   └── SignUpResponse.java
+    │   │   │   │   │       │   └── vo/
+    │   │   │   │   │       │       └── RDBMSUserVo.java
     │   │   │   │   │       ├── entity/
     │   │   │   │   │       │   ├── MongoDBUser.java
     │   │   │   │   │       │   └── RDBMSUser.java
     │   │   │   │   │       ├── repository/
-    │   │   │   │   │       │   ├── UserRepositoryWithMongoDB.java
-    │   │   │   │   │       │   └── UserRepositoryWithRDBMS.java
+    │   │   │   │   │       │   ├── noSql/
+    │   │   │   │   │       │   │   └── UserRepositoryWithMongoDB.java
+    │   │   │   │   │       │   └── rdbms/
+    |   │   │   │   │       │       ├── queryDsl/
+    |   |   │   │   │       │       │   ├── UserQueryRepository.java
+    |   │   │   │   │       │       │   └── UserQueryRepositoryImpl.java
+    │   │   │   │   │       │       └── UserRepositoryWithRDBMS.java
     │   │   │   │   │       └── service/
     │   │   │   │   │           └── UserService.java
     │   │   │   │   ├── global
     │   │   │   │   │   ├── config/
     │   │   │   │   │   │   ├── GlobalCorsConfig.java
-    │   │   │   │   │   │   └── JpaConfig.java
+        │   │   │   │   │   ├── JpaConfig.java
+    │   │   │   │   │   │   └── QueryDSLConfig.java
     │   │   │   │   │   └── exception/
     │   │   │   │   │       └── GlobalExceptionHandler.java
     │   │   │   │   └── springbootAppApplication.java
