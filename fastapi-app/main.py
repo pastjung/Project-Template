@@ -5,6 +5,7 @@ from core.docs import *
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from core.rdbms import Base, engine
+from core.mongoDB import mongodb
 
 def get_server():
     server = FastAPI(
@@ -49,3 +50,12 @@ async def rdbms_ping():
     except Exception as e:
         # 연결 오류 발생 시
         raise HTTPException(status_code=500, detail=f"Database connection error: {str(e)}")
+
+@app.get("/mongodb/ping", tags=['Root'])
+async def mongodb_ping():
+    try:
+        # MongoDB에 ping 명령을 보내어 연결 확인
+        mongodb.command("ping")
+        return 200
+    except ConnectionError:
+        raise HTTPException(status_code=503, detail="Unable to connect to MongoDB")
