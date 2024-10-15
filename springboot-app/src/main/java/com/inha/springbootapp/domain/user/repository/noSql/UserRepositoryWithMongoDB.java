@@ -1,4 +1,4 @@
-package com.inha.springbootapp.domain.user.repository;
+package com.inha.springbootapp.domain.user.repository.noSql;
 
 import com.inha.springbootapp.domain.user.entity.MongoDBUser;
 import org.bson.types.ObjectId;
