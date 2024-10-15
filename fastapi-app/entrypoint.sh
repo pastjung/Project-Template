@@ -14,7 +14,7 @@ if [ ! -d /fastapi-app/venv ]; then \
 
 # .env 파일에서 환경 변수 로드
 if [ -f .env ]; then
-    export $(cat .env | xargs)
+    export $(grep -v '^#' .env | xargs)
 fi
 
 # uvicorn 서버 실행
