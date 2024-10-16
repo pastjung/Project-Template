@@ -1,10 +1,10 @@
 # Project-Template
 
 > Initial written at october 10, 2024 <br/>
-> last updated at: october 15, 2024
+> last updated at: october 16, 2024
 
 
-## Current: ver. 1.0.2<br/>
+## Current: ver. 1.0.3<br/>
 >* ver 1.0.0.
 >   * Init: 프로젝트 세팅 ( React + Spring Boot )
 >   * CORS 설정
@@ -16,18 +16,24 @@
 >   * Spring Boot: RDBMS & NOSQL 데이터베이스 사용법 예시 코드 추가
 >* ver 1.0.2.
 >   * RDBMDS의 QueryDSL 추가 ( MongoDB는 QueryDSL을 자주 사용하지 않아서 RDBMS만 추가함 )
+>* ver 1.0.3.
+>   * Init: 프로젝트 세팅 ( FastAPI )
+>   * FastAPI: CORS 설정
+>   * FastAPI: DB 연결 -> MySQL, MariaDB, MongoDB
+>   * FastAPI: RDBMS & NOSQL 데이터베이스 사용법 예시 코드 추가 -> 로그인/회원가입 & 쿠키 & JWT ( AccessToken, RefreshToken ) 사용
 
 # 1. 프로그램 (프로젝트) 설명
 
 - 본 프로젝트의 운영체제는 Linux OS를 기반으로 작성되었습니다.
 - 본 프로젝트는 Spring Security와 JWT를 고려하지 않은 프로젝트 입니다. ( 추후에 Spring Security를 도입할 경우 Filter와 연결해서 고려할 예정입니다. )
 - 본 프로젝트는 CORS 설정의 경우 Backend에서 설정하는 것이 바람직하다고 생각하여 Spring Boot 프로젝트에서 설정을 했습니다.
+- 본 프로젝트는 MSA & DDD 방식으로 프로젝트를 설계하였으며, 이후 AWS와 Docker를 사용한 배포를 통해 MSA 배포 환경을 고려할 예정입니다.
 
 # 2. Prerequisite
 
 - 본 프로젝트는 Docker를 사용하므로 `.env.template` 파일을 참고하여 `.env` 파일에 환경 변수값을 작성해주세요.
     - root, react-app, springboot-app 총 3가지 파일을 모두 작성해주세요.
-    - MySQL, MariaDB, MongoDB 중 사용하려는 DB만 작성해주세요.
+    - MySQL, MariaDB, MongoDB 중 사용하려는 DB만 작성해주세요. ( RDBMS의 경우 하나만 작성해주세요. )
     - `HOST_PORT` : 외부에서 컨테이너의 애플리케이션에 접근하는데 사용하는 포트 ( 노출되도 괜찮은 포트 )
     - `SERVER_PORT` : 애플리케이션이 컨테이너 내에서 통신하는 포트 ( 노출되면 안되는 포트 )
     - Vite에서는 보안이 필요한 환경변수의 유출을 막기 위해서 `VITE_`으로 시작하지 않는 환경변수는 무시되기 때문에 `VITE_SPRINGBOOT_HOST_PORT`가 필요합니다.
@@ -39,6 +45,9 @@
 
         REACT_HOST_PORT=5174
         REACT_SERVER_PORT=5173
+
+        FASTAPI_HOST_PORT=8001
+        FASTAPI_SERVER_PORT=8000
 
         # MySQL
         MYSQL_ROOT_PASSWORD=12345678
@@ -68,6 +77,7 @@
         # 예시
         VITE_REACT_SERVER_PORT=5173
         VITE_SPRINGBOOT_HOST_PORT=8081
+        VITE_FASTAPI_HOST_PORT=8001
         ```
     - `springboot-app/.env` : Springboot 애플리케이션 환경을 실행시키기 위해 필요한 환경 변수 파일입니다.
         ```
@@ -97,6 +107,32 @@
         MONGODB_PASSWORD=12345678
         MONGO_INITDB_AUTHDB=admin
         ```
+    - `fastapi-app/.env` : FastAPI 애플리케이션 환경을 실행시키기 위해 필요한 환경 변수 파일입니다.
+        ```
+        # 예시
+        SERVER_PORT=8000
+
+        # JWT
+        SECRET_KEY=fske256d3433kf2@er454ddd!35435rd!!!dkzfefdsdfjldkjf!dxfd5dsfx2432dszdfdsfsfs12xdfds2sa
+        ALGORITHM=HS256
+        ACCESS_TOKEN_EXPIRE_MINUTES=60
+        REFRESH_TOKEN_EXPIRE_DAYS=7
+
+        # RDBMS: MariaDB or MySQL
+        RDBMS_ID=root
+        RDBMS_ROOT_PASSWORD=12345678
+        RDBMS_IP_ADDRESS=mysql-container
+        RDBMS_SERVER_PORT=3306
+        RDBMS_DATABASE=mydatabase
+
+        # MongoDB ( NoSQL )
+        MONGODB_IP_ADDRESS=mongodb-container
+        MONGODB_SERVER_PORT=27017
+        MONGODB_DB_NAME=mydatabase
+        MONGODB_COLLECTION_NAME=mycollection
+        MONGODB_ID=root
+        MONGODB_ROOT_PASSWORD=12345678
+        ```
 - 본 프로젝트는 Spring Boot를 사용하므로 `springboot-app/src/main/resources/application.yml.template` 파일을 사용하여 `application.yml` 파일을 생성해주세요. ( 그대로 생성하면 됩니다. )
 
 # 3. 구동 방법
@@ -124,6 +160,43 @@
     │   ├── PULL_REQUEST_TEMPLATE.md
     │   ├── README.md
     │   └── secrets.png
+    │
+    ├── fastapi-app/
+    │   ├── venv/
+    │   ├── core/
+    │   │   ├── docs.py
+    │   │   ├── mongoDB.py
+    │   │   └── rdbms.py
+    │   ├── model/
+    │   │   ├── item_model.py
+    │   │   ├── jwt_model.py
+    │   │   └── user_model.py
+    │   ├── repository/
+    │   │   ├── item_repository.py
+    │   │   ├── jwt_repository.py
+    │   │   └── user_repository.py
+    │   ├── router/
+    │   │   ├── item_router.py
+    │   │   ├── jwt_router.py
+    │   │   └── user_router.py
+    │   ├── schema/
+    │   │   ├── item_schema.py
+    │   │   ├── jwt_schema.py
+    │   │   └── user_schema.py
+    │   ├── service/
+    │   │   ├── item_service.py
+    │   │   ├── jwt_service.py
+    │   │   └── user_service.py
+    │   │
+    │   ├── .env
+    │   ├── .env.template
+    │   ├── .gitignore
+    │   ├── dockerfile
+    │   ├── dockerfile.dev
+    │   ├── entrypoint.sh
+    │   ├── main.py
+    │   ├── requirements.txt
+    │   └── setup.txt
     │
     ├── react-app/
     │   ├── public/
